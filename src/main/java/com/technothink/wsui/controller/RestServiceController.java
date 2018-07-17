@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.technothink.wsui.pojo.Project;
 import com.technothink.wsui.pojo.ServiceResponse;
@@ -20,6 +22,7 @@ public class RestServiceController {
 	public ServiceResponse saveProject(@RequestBody Project project) {
 		ServiceResponse response = null;
 		try {
+			System.out.println(project.toString());
 			AppUtil.get().saveProject(project, project.getProjectName());
 			System.out.println("Project saved");
 
@@ -37,6 +40,17 @@ public class RestServiceController {
 		try {
 			List<Project> projectList = AppUtil.get().getProjects();
 			response = new ServiceResponse("Success", 0, projectList);
+		} catch (Throwable th) {
+
+		}
+		return response;
+	}
+
+	@RequestMapping(value="/uploadFile",method=RequestMethod.POST)
+	public ServiceResponse uploadFile(@RequestParam("file") MultipartFile file) {
+		ServiceResponse response = null;
+		try {
+			System.out.println(file.getOriginalFilename());
 		} catch (Throwable th) {
 
 		}
